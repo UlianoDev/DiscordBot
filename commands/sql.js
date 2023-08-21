@@ -48,7 +48,6 @@ async function updateValidator(query,message){
      //update xxx set 'xxx =valor'
 
      if (findEqualInSintaxe(arrayQuery[4], validator)) {
-     console.log("caiu aqui");
        validator[0] == 2
          ? validatorTwo(arrayQuery, message)
          : validator[0] == 3 ? validatorThree(arrayQuery, message) : console.log('seila');
@@ -57,8 +56,8 @@ async function updateValidator(query,message){
     
 
 
-    //console.log(arrayQuery);
-    //console.log(validator)
+    console.log(arrayQuery);
+    console.log(validator)
 
 }
 function killExtraSpaces(arrayQuery) {
@@ -66,7 +65,9 @@ function killExtraSpaces(arrayQuery) {
 }
 function findEqualInSintaxe(elementArrayQuery,validator){
     let booleanValidator = false
+
     const sintaxeValidator = elementArrayQuery.split('')
+
     sintaxeValidator.map((event)=>{
         if(event === '='){
 
@@ -104,17 +105,76 @@ function validatorOne(arrayQuery,message){
     arrayQuery[4] === "WHERE" || arrayQuery[4] === "where"
       ? message.react("👌")
       : message.reactions.removeAll().then(()=>{message.react("❌")})
+      EqualValidatorInWhereClause(arrayQuery, 4, message);
 
 }
 function validatorTwo(arrayQuery,message){
     arrayQuery[5] === "WHERE" || arrayQuery[5] === "where"
       ? message.react("👌")
       : message.reactions.removeAll().then(()=>{message.react("❌")})
+      EqualValidatorInWhereClause(arrayQuery, 5, message);
 }
 async function validatorThree(arrayQuery, message) {
 
   arrayQuery[6] === "WHERE" || arrayQuery[6] === "where"
     ? message.react("👌")
     : message.reactions.removeAll().then(()=>{message.react("❌")})
+    EqualValidatorInWhereClause(arrayQuery, 6, message);
 }
 
+function EqualValidatorInWhereClause(array,position,message){
+
+
+  console.log(array[position + 1]);
+
+
+    if (array[position + 1].endsWith("=") && array[position + 2]) {
+      //se WHERE tabela= valor
+      console.log('passou aqui')
+      message.react("👌");
+    } 
+  //se WHERE tabela=valor; ou WHERE tabela=valor ;
+  if(array[position+1].split('').find((e)=>e =='=')){
+    array[position + 1].endsWith(";")
+      ? message.react("👌")
+      : array[position + 2] == ";"
+      ? message.react("👌")
+      : message.reactions.removeAll().then(() => {
+          message.react("❌");
+        });
+        return
+  }
+  //se =valor;  
+  if(array[position + 2].startsWith('=') && array[position + 2].endsWith(';')){
+    message.react("👌");
+    return
+  }
+  //se =valor ;
+  if(array[position + 2].startsWith('=') && array[position + 3] ==';'){
+    message.react("👌");
+    return
+  }
+  //se where tabela = valor ;
+  if (
+    array[position + 2] == "=" &&
+    array[position + 3] &&
+    array[position + 4] == ';'
+  ) {
+
+    message.react("👌");
+    return
+  } 
+  //se where tabela = valor;
+  if (array[position + 2] == "=" && array[position + 3].endsWith(';')) {
+    message.react("👌");
+    return
+  } 
+    else {
+
+      message.reactions.removeAll().then(() => {
+        message.react("❌");
+      });
+    }
+
+
+}
