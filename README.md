@@ -15,3 +15,5 @@ Como utilizar este BOT?
 7. Dentro da pasta que você clonou, no VSCODE, abra o terminal e instale a dependencia -> npm install discord.js -> npm init -y
 8. Crie um arquivo '.env' e insira as chaves {TOKEN, CLIENT_ID, GUILD_ID}
 9. O TOKEN você deve obter no mesmo link que o BOT foi criado, na opção 'BOT' em 'reset token'. CLIENT_ID em 'general information'. GUILD_ID é o ID do servidor do discord que o bot vai operar.
+10. Rode o comando: node deploy-commands.js -> e depois node index.js
+11. Agora o seu bot está UP, basta inserir os comandos no chat do discord
