@@ -39,10 +39,20 @@ async function updateValidator(query,message){
     arrayQuery[2] === "set" || arrayQuery[2] === "SET"
       ? message.react("👌")
       : message.reactions.removeAll().then(()=>{message.react("❌")})
+      if(!arrayQuery[3]){
+        message.reactions.removeAll().then(() => {
+          message.react("❌");
+        });
+        return
+      }
     //update xxx set 'xxx= valor' ou 'xxx=valor' ou 'xxx = valor'
     if (findEqualInSintaxe(arrayQuery[3], validator)) {
-      validator[0] == 1 ? validatorOne(arrayQuery,message) : console.log('nao é 1')
-      validator[0] == 2 ? validatorTwo(arrayQuery,message) : console.log('nao é 2')
+      if (validator[0] == 1){
+        validatorOne(arrayQuery, message);
+      }
+      if (validator[0] == 2){
+        validatorTwo(arrayQuery, message);
+      }
     }
    if (findEqualInSintaxe(arrayQuery[3], validator) === false) {
      //update xxx set 'xxx =valor'
@@ -55,7 +65,11 @@ async function updateValidator(query,message){
    }
     
 
-
+    if(validator[0] == 0){
+      message.reactions.removeAll().then(() => {
+        message.react("❌");
+      });
+    }
     console.log(arrayQuery);
     console.log(validator)
 
@@ -65,7 +79,9 @@ function killExtraSpaces(arrayQuery) {
 }
 function findEqualInSintaxe(elementArrayQuery,validator){
     let booleanValidator = false
-
+    if(!elementArrayQuery){
+      return false
+    }
     const sintaxeValidator = elementArrayQuery.split('')
 
     sintaxeValidator.map((event)=>{
@@ -125,12 +141,16 @@ async function validatorThree(arrayQuery, message) {
 function EqualValidatorInWhereClause(array,position,message){
 
 
-  console.log(array[position + 1]);
 
-
+  if (array[position + 1] == undefined){
+    message.reactions.removeAll().then(() => {
+      message.react("❌");
+    });
+    return
+  }
     if (array[position + 1].endsWith("=") && array[position + 2]) {
       //se WHERE tabela= valor
-      console.log('passou aqui')
+      console.log("passou aqui");
       message.react("👌");
     } 
   //se WHERE tabela=valor; ou WHERE tabela=valor ;
