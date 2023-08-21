@@ -13,4 +13,5 @@ Como utilizar este BOT?
 5. Em 'bot permission' de a permissão de administrador, ou para maior segurança, 'Read Messages/Read Channels' + 'Send Messages' + 'Embed links' + 'Add Reactions' + 'Use Slash Commands' + 'Use Embedded Activities' devem ser o suficiente.
 6. Copie a URL gerada e cole no navegador, agora basta dar permissão para ele entrar no servidor desejado.
 7. Dentro da pasta que você clonou, no VSCODE, abra o terminal e instale a dependencia -> npm install discord.js
-8. 
+8. execute o comando: node deploy-commands.js e em seguida inicie o bot com o comando: node index.js
+9. Agora é só usar os comandos no canal do discord.
